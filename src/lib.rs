@@ -61,8 +61,7 @@ macro_rules! impl_rkyv_configuration {
     ($t:ty) => {
         impl $crate::ConfigurationRecord for $t {
             fn from_rkyv_bytes(bytes: &[u8]) -> $crate::Result<Self> {
-                rkyv::from_bytes::<$t, rkyv::rancor::Error>(bytes)
-                    .map_err(|err| $crate::Error::Rkyv(err.to_string()))
+                rkyv::from_bytes::<$t, rkyv::rancor::Error>(bytes).map_err(|err| $crate::Error::Rkyv(err.to_string()))
             }
         }
     };

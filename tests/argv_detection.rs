@@ -11,9 +11,9 @@ fn inline_nota_single_arg_starts_with_paren() {
 }
 
 #[test]
-fn inline_nota_multi_arg_joins_with_spaces() {
-    let source = ConfigurationSource::from_args(["(SmallConfig", "label", "High)"]).unwrap();
-    assert_eq!(source, ConfigurationSource::InlineNota("(SmallConfig label High)".to_owned()));
+fn multiple_args_are_rejected_instead_of_joined() {
+    let err = ConfigurationSource::from_args(["(SmallConfig", "label", "High)"]).unwrap_err();
+    assert!(matches!(err, Error::MultipleArguments(3)), "got {err:?}");
 }
 
 #[test]
@@ -33,6 +33,12 @@ fn missing_argument_returns_typed_error() {
     let arguments: [&str; 0] = [];
     let err = ConfigurationSource::from_args(arguments).unwrap_err();
     assert!(matches!(err, Error::MissingArgument), "got {err:?}");
+}
+
+#[test]
+fn unsupported_argument_index_returns_typed_error() {
+    let err = ConfigurationSource::from_argv_nth(1).unwrap_err();
+    assert!(matches!(err, Error::UnsupportedArgumentIndex(1)), "got {err:?}");
 }
 
 #[test]

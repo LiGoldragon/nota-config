@@ -11,6 +11,12 @@ pub enum Error {
     #[error("no configuration argument supplied on argv")]
     MissingArgument,
 
+    #[error("expected exactly one configuration argument on argv, got {0}")]
+    MultipleArguments(usize),
+
+    #[error("configuration argument index {0} is unsupported; component binaries accept exactly one argument")]
+    UnsupportedArgumentIndex(usize),
+
     #[error("configuration file path {0:?} ended with unknown extension {1:?}; expected .nota or .rkyv")]
     UnknownExtension(PathBuf, String),
 

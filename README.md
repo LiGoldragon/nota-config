@@ -6,6 +6,8 @@ A binary's `main` reads its configuration through
 `ConfigurationSource::from_argv()`, decodes into the binary's own
 typed configuration record, and runs. Configuration arrives as
 typed NOTA records — never as environment variables.
+Production argv is exactly one argument: an inline NOTA record, a
+`.nota` path, or a `.rkyv` path.
 
 ## Three transports
 
@@ -15,8 +17,10 @@ typed NOTA records — never as environment variables.
 | `path/to/config.nota` | NOTA file |
 | `path/to/config.rkyv` | rkyv archive |
 
-Detection is extension-based: `(` prefix → inline; `.nota` →
-NOTA file; `.rkyv` → rkyv file. No content-sniffing.
+Detection is extension-based on that one argument: `(` prefix →
+inline; `.nota` → NOTA file; `.rkyv` → rkyv file. No
+content-sniffing. Inline NOTA must be quoted by the shell so it
+arrives as one argv token.
 
 ## Usage
 

@@ -20,8 +20,8 @@ primary workspace.
 
 - The `ConfigurationSource` enum — the three argv-derived transports
   (inline NOTA, NOTA file, rkyv file).
-- `ConfigurationSource::from_argv()` and friends — argv parsing and
-  extension-based detection.
+- `ConfigurationSource::from_argv()` / `from_args()` — strict
+  one-argument argv parsing and extension-based detection.
 - `ConfigurationSource::decode<C>()` — dispatch into a typed
   configuration record.
 - The `ConfigurationRecord` trait — extends `NotaDecode + Sized`
@@ -40,7 +40,7 @@ primary workspace.
 - The rkyv codec — that lives in the `rkyv` crate. This crate calls
   `rkyv::from_bytes` and converts the error.
 
-## Three transports, one dispatch
+## Three transports, one-argument dispatch
 
 | Argv form | Transport | When |
 |---|---|---|
@@ -50,11 +50,12 @@ primary workspace.
 
 Detection rules, in priority order:
 
-1. **First arg starts with `(`** → inline NOTA. Concatenate **all**
-   argv tokens with single spaces (the shell may have split a
-   multi-word record across tokens).
-2. **First arg ends with `.nota`** → NOTA file.
-3. **First arg ends with `.rkyv`** → rkyv file.
+0. **Arg count must be exactly one.** No argument returns
+   `MissingArgument`; more than one returns `MultipleArguments`.
+1. **The argument starts with `(`** → inline NOTA. The shell must
+   quote the whole record so it arrives as one argv token.
+2. **The argument ends with `.nota`** → NOTA file.
+3. **The argument ends with `.rkyv`** → rkyv file.
 4. Anything else → typed `Error`.
 
 No content-sniffing of file bodies. Filenames self-document their
@@ -138,7 +139,9 @@ tests/
 
 ## Status
 
-**Initial scaffold.** Public surface lands matching `designer/183`
-§3 with the two-macro deviation above. First consumer migration is
-`persona-message-daemon` (heaviest env-var user; per `designer/183`
-§5.3).
+**Working core.** Public surface supports strict one-argument
+configuration input, NOTA-only and rkyv-capable configuration
+records, and the test-only environment fallback. The two-macro
+shape is the intentional deviation from `designer/183` §3; the
+single-argument enforcement keeps this crate aligned with the
+component-binary argv contract.

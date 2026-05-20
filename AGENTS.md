@@ -7,7 +7,7 @@ Persona-stack binary uses. A binary's `main` reads its configuration
 through `ConfigurationSource::from_argv()`, decodes into the binary's
 own typed configuration record, and runs. Environment variables are
 **not** a control-plane configuration channel; production binaries
-read configuration from argv only.
+read exactly one configuration argument from argv only.
 
 Three transports, one dispatch:
 
@@ -19,6 +19,9 @@ Three transports, one dispatch:
 
 Detection is **extension-based**: `(` prefix → inline NOTA; `.nota`
 suffix → NOTA file; `.rkyv` suffix → rkyv file. No content-sniffing.
+Inline NOTA must be shell-quoted so it arrives as one argv token;
+multiple production argv tokens are a typed error, not a joinable
+record fragment.
 
 ## Carve-outs worth knowing
 

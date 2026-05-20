@@ -13,8 +13,8 @@ use crate::error::{Error, Result};
 /// One argv-derived configuration source.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ConfigurationSource {
-    /// One or more argv tokens that, when joined with single spaces,
-    /// form a complete NOTA record. The first token begins with `(`.
+    /// One argv token containing a complete NOTA record. The token
+    /// begins with `(`.
     InlineNota(String),
 
     /// A path ending in `.nota` — the file body is a single NOTA record.
@@ -39,18 +39,25 @@ impl ConfigurationSource {
         I: IntoIterator<Item = S>,
         S: AsRef<OsStr>,
     {
-        let collected: Vec<OsString> = args.into_iter().map(|argument| argument.as_ref().to_owned()).collect();
-        let first = collected.first().ok_or(Error::MissingArgument)?;
-        Self::dispatch(first, &collected)
+        let mut collected = args.into_iter();
+        let first = collected.next().ok_or(Error::MissingArgument)?.as_ref().to_owned();
+        let extra_count = collected.count();
+        if extra_count > 0 {
+            return Err(Error::MultipleArguments(extra_count + 1));
+        }
+        Self::dispatch_single(&first)
     }
 
-    /// Pick the Nth positional configuration argument from argv (0-indexed,
-    /// skipping `argv[0]`). Useful when a binary takes more than one
-    /// configuration path on argv (e.g. daemon config + spawn envelope).
+    /// Compatibility alias for old callers that passed `0` to select
+    /// the only supported configuration argument.
+    ///
+    /// Component binaries accept exactly one argument; any index other
+    /// than `0` is rejected.
     pub fn from_argv_nth(n: usize) -> Result<Self> {
-        let collected: Vec<OsString> = std::env::args_os().skip(1).collect();
-        let argument = collected.get(n).ok_or(Error::MissingArgument)?;
-        Self::dispatch_single(argument)
+        if n != 0 {
+            return Err(Error::UnsupportedArgumentIndex(n));
+        }
+        Self::from_argv()
     }
 
     /// **Test-shim only.** Falls back to the named environment variable
@@ -93,12 +100,13 @@ impl ConfigurationSource {
         match self {
             ConfigurationSource::InlineNota(text) => Self::decode_nota_text(&text),
             ConfigurationSource::NotaFile(path) => {
-                let text =
-                    std::fs::read_to_string(&path).map_err(|source| Error::NotaFileRead { path: path.clone(), source })?;
+                let text = std::fs::read_to_string(&path)
+                    .map_err(|source| Error::NotaFileRead { path: path.clone(), source })?;
                 Self::decode_nota_text(&text)
             }
             ConfigurationSource::RkyvFile(path) => {
-                let bytes = std::fs::read(&path).map_err(|source| Error::RkyvFileRead { path: path.clone(), source })?;
+                let bytes =
+                    std::fs::read(&path).map_err(|source| Error::RkyvFileRead { path: path.clone(), source })?;
                 C::from_rkyv_bytes(&bytes)
             }
         }
@@ -108,19 +116,6 @@ impl ConfigurationSource {
         let mut decoder = Decoder::new(text);
         let record = C::decode(&mut decoder)?;
         Ok(record)
-    }
-
-    fn dispatch(first: &OsString, all: &[OsString]) -> Result<Self> {
-        let lossy = first.to_string_lossy();
-        if lossy.starts_with('(') {
-            let mut parts: Vec<String> = Vec::with_capacity(all.len());
-            for argument in all {
-                let text = argument.to_str().ok_or(Error::NonUtf8InlineArgument)?;
-                parts.push(text.to_owned());
-            }
-            return Ok(ConfigurationSource::InlineNota(parts.join(" ")));
-        }
-        Self::dispatch_single(first)
     }
 
     fn dispatch_single(argument: &OsString) -> Result<Self> {
