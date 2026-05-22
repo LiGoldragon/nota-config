@@ -17,16 +17,16 @@ impl_nota_only_configuration!(TinyConfig);
 #[test]
 fn env_fallback_engages_when_argv_is_empty() {
     let arguments: [&str; 0] = [];
-    let env_value: Option<OsString> = Some(OsString::from("(TinyConfig hello)"));
+    let env_value: Option<OsString> = Some(OsString::from("([we're ready])"));
     let source = ConfigurationSource::from_args_with_env_fallback(arguments, env_value).unwrap();
     let configuration: TinyConfig = source.decode().unwrap();
-    assert_eq!(configuration, TinyConfig { label: "hello".to_owned() });
+    assert_eq!(configuration, TinyConfig { label: "we're ready".to_owned() });
 }
 
 #[test]
 fn env_fallback_ignored_when_argv_has_argument() {
-    let env_value: Option<OsString> = Some(OsString::from("(TinyConfig fromenv)"));
-    let source = ConfigurationSource::from_args_with_env_fallback(["(TinyConfig fromargv)"], env_value).unwrap();
+    let env_value: Option<OsString> = Some(OsString::from("(fromenv)"));
+    let source = ConfigurationSource::from_args_with_env_fallback(["(fromargv)"], env_value).unwrap();
     let configuration: TinyConfig = source.decode().unwrap();
     assert_eq!(configuration, TinyConfig { label: "fromargv".to_owned() });
 }

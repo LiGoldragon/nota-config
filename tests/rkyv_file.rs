@@ -32,7 +32,7 @@ fn rkyv_file_decodes_into_typed_record() {
 
 #[test]
 fn dual_type_also_decodes_inline_nota() {
-    let arguments = ["(DualConfig frontend 8080)"];
+    let arguments = ["(frontend 8080)"];
     let source = ConfigurationSource::from_args(arguments).unwrap();
     let configuration: DualConfig = source.decode().unwrap();
     assert_eq!(configuration, DualConfig { name: "frontend".to_owned(), port: 8080 });

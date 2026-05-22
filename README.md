@@ -13,7 +13,7 @@ Production argv is exactly one argument: an inline NOTA record, a
 
 | Argv form | Transport |
 |---|---|
-| `'(MessageDaemonConfiguration …)'` | inline NOTA on argv |
+| `'([/run/persona/spirit.sock] 64)'` | inline NOTA on argv |
 | `path/to/config.nota` | NOTA file |
 | `path/to/config.rkyv` | rkyv archive |
 
@@ -32,7 +32,7 @@ use rkyv::{Archive, Deserialize as RkyvDeserialize, Serialize as RkyvSerialize};
 #[derive(NotaRecord, Archive, RkyvSerialize, RkyvDeserialize, Debug, Clone, PartialEq)]
 pub struct MessageDaemonConfiguration {
     pub socket_path: String,
-    // …
+    pub backlog: u64,
 }
 
 impl_rkyv_configuration!(MessageDaemonConfiguration);

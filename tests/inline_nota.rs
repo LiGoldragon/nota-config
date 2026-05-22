@@ -20,14 +20,14 @@ impl_nota_only_configuration!(SmallConfig);
 
 #[test]
 fn argv_split_across_tokens_is_rejected() {
-    let arguments = ["(SmallConfig", "hello", "High)"];
+    let arguments = ["([we're", "ready]", "High)"];
     let err = ConfigurationSource::from_args(arguments).unwrap_err();
     assert!(matches!(err, Error::MultipleArguments(3)), "got {err:?}");
 }
 
 #[test]
 fn argv_single_token_decodes_into_typed_record() {
-    let source = ConfigurationSource::from_args(["(SmallConfig hello High)"]).unwrap();
+    let source = ConfigurationSource::from_args(["([we're ready] High)"]).unwrap();
     let configuration: SmallConfig = source.decode().unwrap();
-    assert_eq!(configuration, SmallConfig { label: "hello".to_owned(), level: Level::High });
+    assert_eq!(configuration, SmallConfig { label: "we're ready".to_owned(), level: Level::High });
 }

@@ -6,13 +6,13 @@ use nota_config::{ConfigurationSource, Error};
 
 #[test]
 fn inline_nota_single_arg_starts_with_paren() {
-    let source = ConfigurationSource::from_args(["(SmallConfig label High)"]).unwrap();
-    assert_eq!(source, ConfigurationSource::InlineNota("(SmallConfig label High)".to_owned()));
+    let source = ConfigurationSource::from_args(["([we're ready] High)"]).unwrap();
+    assert_eq!(source, ConfigurationSource::InlineNota("([we're ready] High)".to_owned()));
 }
 
 #[test]
 fn multiple_args_are_rejected_instead_of_joined() {
-    let err = ConfigurationSource::from_args(["(SmallConfig", "label", "High)"]).unwrap_err();
+    let err = ConfigurationSource::from_args(["([we're", "ready]", "High)"]).unwrap_err();
     assert!(matches!(err, Error::MultipleArguments(3)), "got {err:?}");
 }
 

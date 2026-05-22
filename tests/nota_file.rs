@@ -23,12 +23,12 @@ impl_nota_only_configuration!(SmallConfig);
 #[test]
 fn nota_file_decodes_into_typed_record() {
     let mut temporary = tempfile::Builder::new().suffix(".nota").tempfile().unwrap();
-    temporary.write_all(b"(SmallConfig hello Low)").unwrap();
+    temporary.write_all(b"([we're ready] Low)").unwrap();
     let path = temporary.path().to_owned();
     let source = ConfigurationSource::from_args([path.as_os_str()]).unwrap();
     assert!(matches!(source, ConfigurationSource::NotaFile(_)));
     let configuration: SmallConfig = source.decode().unwrap();
-    assert_eq!(configuration, SmallConfig { label: "hello".to_owned(), level: Level::Low });
+    assert_eq!(configuration, SmallConfig { label: "we're ready".to_owned(), level: Level::Low });
 }
 
 #[test]
