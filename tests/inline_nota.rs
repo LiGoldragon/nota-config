@@ -26,8 +26,11 @@ fn argv_split_across_tokens_is_rejected() {
 }
 
 #[test]
-fn argv_single_token_decodes_into_typed_record() {
-    let source = ConfigurationSource::from_args(["([we're ready] High)"]).unwrap();
+fn nota_argument_accepts_apostrophe_text_without_quote_delimiters() {
+    let argument = "([we're ready] High)";
+    assert!(!argument.contains('"'));
+
+    let source = ConfigurationSource::from_args([argument]).unwrap();
     let configuration: SmallConfig = source.decode().unwrap();
     assert_eq!(configuration, SmallConfig { label: "we're ready".to_owned(), level: Level::High });
 }

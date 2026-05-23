@@ -13,7 +13,7 @@ Three transports, one dispatch:
 
 | Argv form | Transport | When |
 |---|---|---|
-| `'([/run/persona/spirit.sock] 64)'` | inline NOTA on argv | small configs, debugging, ad-hoc daemon launches |
+| `"([we're ready] 64)"` | inline NOTA on argv | small configs, debugging, ad-hoc daemon launches |
 | `path/to/config.nota` | NOTA file | larger configs, human-readable, production today |
 | `path/to/config.rkyv` | rkyv archive | future hot-path, pre-validated, rkyv-derived types |
 

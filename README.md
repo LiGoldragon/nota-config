@@ -13,7 +13,7 @@ Production argv is exactly one argument: an inline NOTA record, a
 
 | Argv form | Transport |
 |---|---|
-| `'([/run/persona/spirit.sock] 64)'` | inline NOTA on argv |
+| `"([we're ready] 64)"` | inline NOTA on argv |
 | `path/to/config.nota` | NOTA file |
 | `path/to/config.rkyv` | rkyv archive |
 
