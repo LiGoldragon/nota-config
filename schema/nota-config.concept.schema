@@ -1,0 +1,23 @@
+{}
+
+[]
+
+[]
+
+[]
+
+{
+  ConfigurationInput [InlineNota NotaPath SignalPath]
+  ConfigurationRecord (Text)
+  ValidationError (Text)
+  Text (String)
+  Identifier (u64)
+  Name (String)
+  Path (String)
+  Status [Concept Active Retired]
+}
+
+[
+  (Version 0 1)
+  (Status Concept)
+]
