@@ -145,3 +145,18 @@ records, and the test-only environment fallback. The two-macro
 shape is the intentional deviation from `designer/183` §3; the
 single-argument enforcement keeps this crate aligned with the
 component-binary argv contract.
+
+## Macro-pattern integration
+
+**Status:** integrated into the brilliant macro library pattern per `reports/designer/326-v13-spirit-complete-schema-vision.md §3` (schemas as macro-pattern instance).
+
+**Role:** this crate is the NOTA config helper — the single-argument NOTA-string config decoder every component binary uses to consume its CLI argument. It is orthogonal to the schema-engine upgrade; it sits at the binary's argv boundary, not inside the wire protocol.
+
+**Integration target:** NOTA notation suite; config records remain hand-declared per component and continue to derive `NotaRecord` via `nota-derive`. The schema-engine upgrade does not touch this crate's surface, but the macro-emitted config types (where the schema declares a component-config block) plug into this crate's decode pipeline through the same `nota-derive` derives.
+
+**Per-library concern:** if a future schema-language extension adds a config-block declaration (sketch only, not in `/326-v13`), nota-config remains the runtime decoder; the macro would just emit the same shape the human author writes today.
+
+**References:**
+- `reports/designer/326-v13-spirit-complete-schema-vision.md` — schema language + macro pattern
+- `reports/designer/324-migration-mvp-spirit-handover-re-specification.md` — migration MVP
+- `reports/operator/174-schema-import-header-design-critique-2026-05-24.md` — lowering + AssembledSchema form
