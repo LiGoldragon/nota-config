@@ -148,7 +148,7 @@ component-binary argv contract.
 
 ## Macro-pattern integration
 
-**Status:** integrated into the brilliant macro library pattern per `reports/designer/326-v13-spirit-complete-schema-vision.md §3` (schemas as macro-pattern instance).
+**Status:** integrated into the `schema-rust` composer + `emit_schema!` proc-macro pattern per `reports/designer/340-schema-emission-no-legacy-signal-channel-2026-05-25.md` + `reports/operator/184-schema-macro-old-emitter-audit-2026-05-25.md` (schemas as `AssembledSchema` input to the `schema-rust` composer; emission top-down through `emit_schema!`). Supersedes `/326-v13`'s "brilliant macro library" framing which endorsed extending `signal-frame/macros/` — that direction is reversed per psyche record 639.
 
 **Role:** this crate is the NOTA config helper — the single-argument NOTA-string config decoder every component binary uses to consume its CLI argument. It is orthogonal to the schema-engine upgrade; it sits at the binary's argv boundary, not inside the wire protocol.
 
