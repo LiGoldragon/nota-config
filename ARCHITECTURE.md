@@ -35,8 +35,8 @@ primary workspace.
 - The configuration records themselves — each consumer crate (e.g.
   `signal-persona-message`) defines its own
   `<X>DaemonConfiguration` record.
-- The NOTA codec — that lives in `nota-codec`. This crate re-uses
-  `Decoder`, `NotaDecode`, and the derive macros from there.
+- The NOTA codec — that lives in `nota-next`. This crate re-uses
+  `NotaSource`, `NotaDecode`, and the derive macros from there.
 - The rkyv codec — that lives in the `rkyv` crate. This crate calls
   `rkyv::from_bytes` and converts the error.
 
@@ -45,8 +45,8 @@ primary workspace.
 | Argv form | Transport | When |
 |---|---|---|
 | `"([we're ready] High)"` | inline NOTA on argv | small configs, debugging, ad-hoc daemon launches |
-| `path/to/config.nota` | NOTA file | larger configs, human-readable, production today |
-| `path/to/config.rkyv` | rkyv archive | future hot-path, pre-validated, rkyv-derived types |
+| `path/to/config.nota` | NOTA file | larger human-authored configs and deploy-helper input |
+| `path/to/config.rkyv` | rkyv archive | binary daemon startup input and pre-validated records |
 
 Detection rules, in priority order:
 
@@ -148,15 +148,18 @@ component-binary argv contract.
 
 ## Macro-pattern integration
 
-**Status:** integrated into the brilliant macro library pattern per `reports/designer/326-v13-spirit-complete-schema-vision.md §3` (schemas as macro-pattern instance).
+**Status:** integrated with the current `nota-next` codec. Config
+records derive `NotaEncode` / `NotaDecode`; this crate chooses the
+argv transport and delegates text decoding to `NotaSource` or binary
+decoding to rkyv.
 
-**Role:** this crate is the NOTA config helper — the single-argument NOTA-string config decoder every component binary uses to consume its CLI argument. It is orthogonal to the schema-engine upgrade; it sits at the binary's argv boundary, not inside the wire protocol.
+**Role:** this crate is the configuration helper every component
+binary uses to consume its single CLI argument. It is orthogonal to the
+schema-engine upgrade; it sits at the binary's argv boundary, not
+inside the wire protocol.
 
-**Integration target:** NOTA notation suite; config records remain hand-declared per component and continue to derive `NotaRecord` via `nota-derive`. The schema-engine upgrade does not touch this crate's surface, but the macro-emitted config types (where the schema declares a component-config block) plug into this crate's decode pipeline through the same `nota-derive` derives.
-
-**Per-library concern:** if a future schema-language extension adds a config-block declaration (sketch only, not in `/326-v13`), nota-config remains the runtime decoder; the macro would just emit the same shape the human author writes today.
-
-**References:**
-- `reports/designer/326-v13-spirit-complete-schema-vision.md` — schema language + macro pattern
-- `reports/designer/324-migration-mvp-spirit-handover-re-specification.md` — migration MVP
-- `reports/operator/174-schema-import-header-design-critique-2026-05-24.md` — lowering + AssembledSchema form
+**Integration target:** config records remain hand-declared per
+component today. When a future schema extension emits a component
+configuration type, the emitted type plugs into this crate through the
+same `NotaEncode` / `NotaDecode` derives and the same
+`ConfigurationRecord` installer macro.

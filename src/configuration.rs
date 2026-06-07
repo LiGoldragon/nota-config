@@ -1,7 +1,7 @@
 //! The [`ConfigurationRecord`] trait — what every typed
 //! configuration type implements.
 
-use nota_codec::NotaDecode;
+use nota_next::NotaDecode;
 
 use crate::error::Result;
 

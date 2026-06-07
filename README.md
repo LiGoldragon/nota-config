@@ -26,10 +26,10 @@ arrives as one argv token.
 
 ```rust
 use nota_config::{ConfigurationRecord, ConfigurationSource, impl_rkyv_configuration};
-use nota_codec::NotaRecord;
+use nota_next::{NotaDecode, NotaEncode};
 use rkyv::{Archive, Deserialize as RkyvDeserialize, Serialize as RkyvSerialize};
 
-#[derive(NotaRecord, Archive, RkyvSerialize, RkyvDeserialize, Debug, Clone, PartialEq)]
+#[derive(NotaEncode, NotaDecode, Archive, RkyvSerialize, RkyvDeserialize, Debug, Clone, PartialEq)]
 pub struct MessageDaemonConfiguration {
     pub socket_path: String,
     pub backlog: u64,

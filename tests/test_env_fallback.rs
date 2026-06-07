@@ -4,10 +4,10 @@
 
 use std::ffi::OsString;
 
-use nota_codec::NotaRecord;
 use nota_config::{ConfigurationSource, impl_nota_only_configuration};
+use nota_next::{NotaDecode, NotaEncode};
 
-#[derive(NotaRecord, Debug, Clone, PartialEq, Eq)]
+#[derive(NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq)]
 pub struct TinyConfig {
     pub label: String,
 }

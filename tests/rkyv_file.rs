@@ -5,11 +5,11 @@
 
 use std::io::Write;
 
-use nota_codec::NotaRecord;
 use nota_config::{ConfigurationSource, impl_rkyv_configuration};
+use nota_next::{NotaDecode, NotaEncode};
 use rkyv::{Archive, Deserialize as RkyvDeserialize, Serialize as RkyvSerialize};
 
-#[derive(NotaRecord, Archive, RkyvSerialize, RkyvDeserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(NotaEncode, NotaDecode, Archive, RkyvSerialize, RkyvDeserialize, Debug, Clone, PartialEq, Eq)]
 pub struct DualConfig {
     pub name: String,
     pub port: u64,

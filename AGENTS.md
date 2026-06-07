@@ -14,8 +14,8 @@ Three transports, one dispatch:
 | Argv form | Transport | When |
 |---|---|---|
 | `"([we're ready] 64)"` | inline NOTA on argv | small configs, debugging, ad-hoc daemon launches |
-| `path/to/config.nota` | NOTA file | larger configs, human-readable, production today |
-| `path/to/config.rkyv` | rkyv archive | future hot-path, pre-validated, rkyv-derived types |
+| `path/to/config.nota` | NOTA file | larger human-authored configs and deploy-helper input |
+| `path/to/config.rkyv` | rkyv archive | binary daemon startup input and pre-validated records |
 
 Detection is **extension-based**: `(` prefix → inline NOTA; `.nota`
 suffix → NOTA file; `.rkyv` suffix → rkyv file. No content-sniffing.

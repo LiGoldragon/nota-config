@@ -5,7 +5,7 @@
 use std::ffi::{OsStr, OsString};
 use std::path::PathBuf;
 
-use nota_codec::{Decoder, NotaDecode};
+use nota_next::{NotaDecode, NotaSource};
 
 use crate::configuration::ConfigurationRecord;
 use crate::error::{Error, Result};
@@ -113,9 +113,7 @@ impl ConfigurationSource {
     }
 
     fn decode_nota_text<C: NotaDecode>(text: &str) -> Result<C> {
-        let mut decoder = Decoder::new(text);
-        let record = C::decode(&mut decoder)?;
-        Ok(record)
+        NotaSource::new(text).parse().map_err(Error::Nota)
     }
 
     fn dispatch_single(argument: &OsString) -> Result<Self> {

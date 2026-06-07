@@ -42,7 +42,7 @@ self-document their format; file bodies are never inspected to guess.
 argv uses bracket string forms (`[text]`, `[|text|]`) and bare
 camelCase/kebab-case at `String` positions; the inline record is
 wrapped in shell double quotes because NOTA itself never contains a
-quotation mark. This crate decodes that text through `nota-codec`; it
+quotation mark. This crate decodes that text through `nota-next`; it
 does not accept a second config syntax.
 
 *This crate is library-only and owns the boundary, not the records.*
@@ -50,16 +50,17 @@ No daemon, no socket, no durable store. It owns `ConfigurationSource`,
 the one-argument parse, the `ConfigurationRecord` trait, and the two
 installer macros (`impl_nota_only_configuration!` /
 `impl_rkyv_configuration!`). It does not own the configuration records
-themselves, the NOTA codec (that is `nota-codec`), or the rkyv codec.
+themselves, the NOTA codec (that is `nota-next`), or the rkyv codec.
 
 ## Schema-stack direction
 
 This crate sits at the binary's argv boundary, orthogonal to the
 schema-engine upgrade. Config records remain hand-declared per
-component and derive `NotaRecord` via `nota-derive`; where a future
-schema declares a component-config block, the macro-emitted config
-type plugs into this same decode pipeline through the same derives.
-The crate's surface does not change as the schema engine lands.
+component and derive `NotaEncode` / `NotaDecode` via `nota-next`;
+where a future schema declares a component-config block, the
+macro-emitted config type plugs into this same decode pipeline through
+the same derives. The crate's surface does not change as the schema
+engine lands.
 
 ## See also
 
