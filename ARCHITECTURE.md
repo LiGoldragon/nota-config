@@ -1,5 +1,11 @@
 # nota-config — architecture
 
+## 0.5 · Direction
+
+`nota-config` is the workspace enforcement point for the one-argument configuration rule: every component binary takes exactly one startup argument — inline NOTA, a `.nota` path, or a `.rkyv` path — with no flags, no environment-variable control plane, and no content-sniffing. Adding new configuration means extending the typed record, never adding a new flag.
+
+This crate is library-only: no daemon, no socket, no durable store. It owns the dispatch surface and the `ConfigurationRecord` trait; each consumer crate owns its own typed configuration record. Config records remain hand-declared per component and plug into this crate through `NotaEncode`/`NotaDecode` derives; the surface does not change as the schema engine lands.
+
 ## Role
 
 `nota-config` is the **typed configuration input library** every
