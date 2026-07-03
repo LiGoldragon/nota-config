@@ -18,7 +18,7 @@ pub use source::ConfigurationSource;
 /// Use for configuration types that travel only as NOTA.
 ///
 /// ```ignore
-/// use nota_next::{NotaDecode, NotaEncode};
+/// use nota::{NotaDecode, NotaEncode};
 /// use nota_config::impl_nota_only_configuration;
 ///
 /// #[derive(NotaEncode, NotaDecode, Debug, Clone, PartialEq)]
@@ -44,7 +44,7 @@ macro_rules! impl_nota_only_configuration {
 /// also derive `Archive + RkyvSerialize + RkyvDeserialize`.
 ///
 /// ```ignore
-/// use nota_next::{NotaDecode, NotaEncode};
+/// use nota::{NotaDecode, NotaEncode};
 /// use nota_config::impl_rkyv_configuration;
 /// use rkyv::{Archive, Deserialize as RkyvDeserialize, Serialize as RkyvSerialize};
 ///

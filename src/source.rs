@@ -5,7 +5,7 @@
 use std::ffi::{OsStr, OsString};
 use std::path::PathBuf;
 
-use nota_next::{NotaDecode, NotaSource};
+use nota::{NotaDecode, NotaSource};
 
 use crate::configuration::ConfigurationRecord;
 use crate::error::{Error, Result};

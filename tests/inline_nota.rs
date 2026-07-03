@@ -2,7 +2,7 @@
 //! from argv that begins with `(`.
 
 use nota_config::{ConfigurationSource, Error, impl_nota_only_configuration};
-use nota_next::{NotaDecode, NotaEncode};
+use nota::{NotaDecode, NotaEncode};
 
 #[derive(NotaEncode, NotaDecode, Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Level {

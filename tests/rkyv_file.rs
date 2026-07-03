@@ -6,7 +6,7 @@
 use std::io::Write;
 
 use nota_config::{ConfigurationSource, impl_rkyv_configuration};
-use nota_next::{NotaDecode, NotaEncode};
+use nota::{NotaDecode, NotaEncode};
 use rkyv::{Archive, Deserialize as RkyvDeserialize, Serialize as RkyvSerialize};
 
 #[derive(NotaEncode, NotaDecode, Archive, RkyvSerialize, RkyvDeserialize, Debug, Clone, PartialEq, Eq)]

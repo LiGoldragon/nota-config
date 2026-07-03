@@ -11,7 +11,7 @@ description  = "Typed configuration input for Persona-stack binaries. NOTA recor
 path = "src/lib.rs"
 
 [dependencies]
-nota-next = { git = "https://github.com/LiGoldragon/nota-next.git", branch = "main" }
+nota = { git = "https://github.com/LiGoldragon/nota.git", branch = "main" }
 rkyv      = { version = "0.8", default-features = false, features = ["std", "bytecheck", "little_endian", "pointer_width_32", "unaligned"] }
 thiserror = "2"
 

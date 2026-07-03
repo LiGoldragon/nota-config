@@ -5,7 +5,7 @@
 use std::ffi::OsString;
 
 use nota_config::{ConfigurationSource, impl_nota_only_configuration};
-use nota_next::{NotaDecode, NotaEncode};
+use nota::{NotaDecode, NotaEncode};
 
 #[derive(NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq)]
 pub struct TinyConfig {

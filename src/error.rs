@@ -41,7 +41,7 @@ pub enum Error {
     },
 
     #[error("NOTA decode failed: {0}")]
-    Nota(#[from] nota_next::NotaDecodeError),
+    Nota(#[from] nota::NotaDecodeError),
 
     #[error("rkyv decode failed: {0}")]
     Rkyv(String),

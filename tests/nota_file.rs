@@ -4,7 +4,7 @@
 use std::io::Write;
 
 use nota_config::{ConfigurationSource, impl_nota_only_configuration};
-use nota_next::{NotaDecode, NotaEncode};
+use nota::{NotaDecode, NotaEncode};
 
 #[derive(NotaEncode, NotaDecode, Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Level {
