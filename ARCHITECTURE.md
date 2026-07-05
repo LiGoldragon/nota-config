@@ -41,7 +41,7 @@ primary workspace.
 - The configuration records themselves — each consumer crate (e.g.
   `signal-persona-message`) defines its own
   `<X>DaemonConfiguration` record.
-- The NOTA codec — that lives in `nota-next`. This crate re-uses
+- The NOTA codec — that lives in `nota`. This crate re-uses
   `NotaSource`, `NotaDecode`, and the derive macros from there.
 - The rkyv codec — that lives in the `rkyv` crate. This crate calls
   `rkyv::from_bytes` and converts the error.
@@ -154,7 +154,7 @@ component-binary argv contract.
 
 ## Macro-pattern integration
 
-**Status:** integrated with the current `nota-next` codec. Config
+**Status:** integrated with the current `nota` codec. Config
 records derive `NotaEncode` / `NotaDecode`; this crate chooses the
 argv transport and delegates text decoding to `NotaSource` or binary
 decoding to rkyv.

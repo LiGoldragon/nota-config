@@ -26,7 +26,7 @@ arrives as one argv token.
 
 ```rust
 use nota_config::{ConfigurationRecord, ConfigurationSource, impl_rkyv_configuration};
-use nota_next::{NotaDecode, NotaEncode};
+use nota::{NotaDecode, NotaEncode};
 use rkyv::{Archive, Deserialize as RkyvDeserialize, Serialize as RkyvSerialize};
 
 #[derive(NotaEncode, NotaDecode, Archive, RkyvSerialize, RkyvDeserialize, Debug, Clone, PartialEq)]
