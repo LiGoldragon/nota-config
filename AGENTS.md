@@ -1,5 +1,3 @@
-You **MUST** read AGENTS.md at `github:LiGoldragon/lore` — the canonical agent contract.
-
 ## Repo role
 
 `nota-config` is the **typed configuration input library** every
